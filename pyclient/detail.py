@@ -1,9 +1,8 @@
-"""COnsuming the API"""
+"""Fetching the products details"""
 import requests
-import basic
 
-END_POINT="http://127.0.0.1:8000/save_sub_category"
-response=requests.post(END_POINT, json={"category":1,"name":"one"})
+END_POINT="http://127.0.0.1:8000/api/products/3/"
+response=requests.get(END_POINT)
 
 print(response.json())
 
