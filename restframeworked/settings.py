@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'api', 
     'products',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -35,6 +36,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+REST_FRAMEWORK ={
+    'DEFAULT_RENDERER_CLASSES':[
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES':[
+        'rest_framework.renderers.JSONParser',
+    ]
+}
 
 ROOT_URLCONF = 'restframeworked.urls'
 

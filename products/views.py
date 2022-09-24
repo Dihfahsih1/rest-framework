@@ -8,10 +8,15 @@ from .permissions import IsStaffEditorPemission
 
 
 class PoductListCreateAPIView(generics.ListCreateAPIView,):
+  """Use authentication token to authorize access to the API"""
   queryset=Product.objects.all()
   serializer_class=ProductSerializer
-  authentication_classes = [authentication.SessionAuthentication]
-  permission_classes = [permissions.IsAdminUser, IsStaffEditorPemission]
+  authentication_classes = [
+    authentication.SessionAuthentication,
+    authentication.TokenAuthentication
+    ]
+  permission_classes = [permissions.IsAdminUser,
+                        IsStaffEditorPemission]
   
   def perform_create(self, serializer):
     print(serializer)
