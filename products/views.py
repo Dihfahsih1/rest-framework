@@ -1,18 +1,17 @@
 from django.shortcuts import render
-from rest_framework import generics,mixins, permissions, authentication
+from rest_framework import generics,mixins 
 
 from .models import Product
 from .serializers import ProductSerializer
-from .permissions import IsStaffEditorPemission
+from api.mixins import StaffEditorPermissions
 
 
 
-class PoductListCreateAPIView(generics.ListCreateAPIView,):
+class PoductListCreateAPIView(StaffEditorPermissions,
+                              generics.ListCreateAPIView,):
   """Use authentication token to authorize access to the API"""
   queryset=Product.objects.all()
   serializer_class=ProductSerializer
-  permission_classes = [permissions.IsAdminUser,
-                        IsStaffEditorPemission]
   
   def perform_create(self, serializer):
     print(serializer)
@@ -28,7 +27,8 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
   queryset=Product.objects.all()
   serializer_class=ProductSerializer
 
-class ProductDestroyAPIView(generics.DestroyAPIView):
+class ProductDestroyAPIView(StaffEditorPermissions,
+                            generics.DestroyAPIView):
   queryset=Product.objects.all()
   serializer_class=ProductSerializer
   lookup_field = 'pk'
@@ -36,7 +36,8 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
   def perform_destroy(self, instance):
     super().perform_destroy(instance)
   
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(StaffEditorPermissions, 
+                           generics.UpdateAPIView):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
   lookup_field = 'pk'
